@@ -33,4 +33,4 @@ First release
 Decrease the number of concurrent client for each port from 50 to 5
 
 1.00
-GitHub release
+GitHub release with GraalVM Build and Native Image
