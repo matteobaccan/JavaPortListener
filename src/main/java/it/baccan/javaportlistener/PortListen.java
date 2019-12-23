@@ -30,7 +30,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.StringTokenizer;
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -186,7 +185,7 @@ public class PortListen extends Thread {
 
         if (null == retVal) {
             try {
-                retVal = java.net.InetAddress.getByName(ip).getCanonicalHostName();
+                retVal = InetAddress.getByName(ip).getCanonicalHostName();
             } catch (final java.net.UnknownHostException e1) {
                 retVal = ip;
             }
