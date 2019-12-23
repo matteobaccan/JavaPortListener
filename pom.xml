@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>it.baccan</groupId>
     <artifactId>JavaPortListener</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,6 +12,30 @@
     </properties>
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <minimizeJar>true</minimizeJar>
+                    <archive>
+                        <manifest>
+                            <mainClass>it.baccan.javaportlistener.PortListen</mainClass>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>com.oracle.substratevm</groupId>
                 <artifactId>native-image-maven-plugin</artifactId>
@@ -23,9 +47,9 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
-                            <mainClass>it.baccan.javaportlistener.portListen</mainClass>
+                            <mainClass>it.baccan.javaportlistener.PortListen</mainClass>
                             <buildArgs>-ea</buildArgs>
-                            <imageName>portListen</imageName>
+                            <imageName>PortListen</imageName>
                             <skip>true</skip>
                         </configuration>
                     </execution>
@@ -38,6 +62,7 @@
                 <targetPath>${project.build.directory}</targetPath><!-- to -->
                 <includes>
                     <include>portListen.ini</include>
+                    <include>log4j.properties</include>
                 </includes>
             </resource> 
             <resource>
@@ -45,9 +70,28 @@
                 <targetPath>${project.basedir}/release/</targetPath><!-- to -->
                 <includes>
                     <include>portListen.ini</include>
+                    <include>log4j.properties</include>
                     <include>portListen.exe</include>
                 </includes>
             </resource> 
         </resources>
     </build>
+    <dependencies>
+        <!-- Logger -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+    </dependencies>
 </project>
