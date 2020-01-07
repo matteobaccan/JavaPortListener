@@ -1,3 +1,6 @@
+[![security status](https://www.meterian.io/badge/gh/matteobaccan/JavaPortListener/security)](https://www.meterian.io/report/gh/matteobaccan/JavaPortListener)
+[![stability status](https://www.meterian.io/badge/gh/matteobaccan/JavaPortListener/stability)](https://www.meterian.io/report/gh/matteobaccan/JavaPortListener)
+
 # JavaPortListener
 Java port Listener is a command line port listener written in Java
 
