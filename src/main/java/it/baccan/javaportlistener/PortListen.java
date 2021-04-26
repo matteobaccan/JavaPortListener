@@ -29,7 +29,16 @@ import java.net.BindException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.StringTokenizer;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +55,7 @@ public class PortListen extends Thread {
      *
      * @param argv
      */
-    static public void main(String argv[]) {
+    public static void main(String[] argv) {
         PropertyConfigurator.configure("log4j.properties");
 
         LOG.info("+---------------------------------------------------------------------------+");
@@ -153,18 +162,17 @@ public class PortListen extends Thread {
         final String[] bytes = ip.split("\\.");
         if (bytes.length == 4) {
             try {
-                final java.util.Hashtable<String, String> env = new java.util.Hashtable<String, String>();
+                final Hashtable<String, String> env = new Hashtable<>();
                 env.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
-                final javax.naming.directory.DirContext ctx = new javax.naming.directory.InitialDirContext(env);
+                final DirContext ctx = new InitialDirContext(env);
                 final String reverseDnsDomain = bytes[3] + "." + bytes[2] + "." + bytes[1] + "." + bytes[0] + ".in-addr.arpa";
-                final javax.naming.directory.Attributes attrs = ctx.getAttributes(reverseDnsDomain, new String[]{
+                final Attributes attrs = ctx.getAttributes(reverseDnsDomain, new String[]{
                     "PTR",});
-                for (final javax.naming.NamingEnumeration<? extends javax.naming.directory.Attribute> ae = attrs.getAll(); ae.hasMoreElements();) {
-                    final javax.naming.directory.Attribute attr = ae.next();
+                for (final NamingEnumeration<? extends Attribute> ae = attrs.getAll(); ae.hasMoreElements();) {
+                    final Attribute attr = ae.next();
                     final String attrId = attr.getID();
-                    for (final java.util.Enumeration<?> vals = attr.getAll(); vals.hasMoreElements();) {
+                    for (final Enumeration<?> vals = attr.getAll(); vals.hasMoreElements();) {
                         String value = vals.nextElement().toString();
-                        // System.out.println(attrId + ": " + value);
 
                         if ("PTR".equals(attrId)) {
                             final int len = value.length();
@@ -177,16 +185,16 @@ public class PortListen extends Thread {
                     }
                 }
                 ctx.close();
-            } catch (final javax.naming.NamingException e) {
+            } catch (final NamingException e) {
                 // No reverse DNS that we could find, try with InetAddress
-                System.out.print(""); // NO-OP
+                LOG.info(""); // NO-OP
             }
         }
 
         if (null == retVal) {
             try {
                 retVal = InetAddress.getByName(ip).getCanonicalHostName();
-            } catch (final java.net.UnknownHostException e1) {
+            } catch (final UnknownHostException e1) {
                 retVal = ip;
             }
         }
