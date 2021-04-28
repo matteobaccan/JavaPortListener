@@ -39,9 +39,8 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
-import org.apache.log4j.PropertyConfigurator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -49,17 +48,16 @@ import org.slf4j.LoggerFactory;
  */
 public class PortListen extends Thread {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PortListen.class);
+    private static final Logger LOG = LogManager.getLogger(PortListen.class);
 
     /**
      *
      * @param argv
      */
     public static void main(String[] argv) {
-        PropertyConfigurator.configure("log4j.properties");
 
         LOG.info("+---------------------------------------------------------------------------+");
-        LOG.info("| TCP/IP Port Listener                                         Version 1.01 |");
+        LOG.info("| TCP/IP Port Listener                                         Version 1.02 |");
         LOG.info("| by Matteo Baccan                                    https://www.baccan.it |");
         LOG.info("+---------------------------------------------------------------------------+");
         LOG.info("Opening portListen.ini ...");

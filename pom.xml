@@ -3,8 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>it.baccan</groupId>
     <artifactId>JavaPortListener</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
+    <name>JavaPortListener ${project.version}</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -56,38 +57,32 @@
                 </executions>
             </plugin>
         </plugins>
-        <resources>              
+        <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources/</directory><!-- from -->
                 <targetPath>${project.build.directory}</targetPath><!-- to -->
                 <includes>
                     <include>portListen.ini</include>
-                    <include>log4j.properties</include>
                 </includes>
-            </resource> 
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/main/resources/</directory><!-- from -->
+                <targetPath>${project.build.directory}/classes/</targetPath><!-- to -->
+                <includes>
+                    <include>log4j2.xml</include>
+                </includes>
+            </resource>
             <resource>
                 <directory>${project.build.directory}</directory><!-- from -->
                 <targetPath>${project.basedir}/release/</targetPath><!-- to -->
                 <includes>
                     <include>portListen.ini</include>
-                    <include>log4j.properties</include>
                     <include>portListen.exe</include>
                 </includes>
-            </resource> 
+            </resource>
         </resources>
     </build>
     <dependencies>
-        <!-- Logger -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.30</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.30</version>
-        </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>

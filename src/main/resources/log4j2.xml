@@ -1,0 +1,25 @@
+<Configuration status="DEBUG">
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy/MM/dd HH:mm:ss} %-5p - %m%n"/>
+        </Console>
+        <RollingFile name="LogToRollingFile" fileName="PortListener.log"
+                    filePattern="PortListener-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy/MM/dd HH:mm:ss} %-5p - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- avoid duplicated logs with additivity=false -->
+        <Logger name="it.baccan" level="debug" additivity="false">
+            <AppenderRef ref="LogToRollingFile"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="LogToConsole"/>
+        </Root>
+    </Loggers>
+</Configuration>
